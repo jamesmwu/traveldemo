@@ -1,0 +1,169 @@
+.itinerary-planner {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	max-width: 1400px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.planner-content {
+	display: flex;
+	gap: 2rem;
+	margin-top: 0.5rem;
+}
+
+.input-section {
+	flex: 0 0 45%;
+	min-width: 0;
+}
+
+.output-section {
+	flex: 0 0 55%;
+	min-width: 0;
+}
+
+/* Make the forms more comfortable on large screens */
+.step-container {
+	background-color: var(--white);
+	border-radius: 8px;
+	padding: 1.75rem;
+	box-shadow: var(--shadow);
+	width: 100%;
+}
+
+/* Form styling */
+.step-title {
+	font-size: 1.5rem;
+	margin-bottom: 1.5rem;
+	color: var(--primary-color);
+	border-bottom: 2px solid var(--medium-gray);
+	padding-bottom: 0.5rem;
+}
+
+.form-group {
+	margin-bottom: 1.25rem;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-weight: 600;
+	font-size: 1rem;
+	color: var(--text-color);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+	width: 100%;
+	padding: 0.8rem;
+	border: 1px solid var(--medium-gray);
+	border-radius: 4px;
+	font-size: 1rem;
+	color: var(--text-color);
+	background-color: var(--light-gray);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+	outline: none;
+	border-color: var(--primary-color);
+	box-shadow: 0 0 0 2px rgba(100, 161, 127, 0.2);
+}
+
+.checkbox-group {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin-top: 0.5rem;
+}
+
+.checkbox-item {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	background-color: var(--light-gray);
+	padding: 0.5rem 1rem;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: var(--transition);
+	font-size: 0.95rem;
+}
+
+.checkbox-item:hover {
+	background-color: var(--medium-gray);
+}
+
+.checkbox-item.selected {
+	background-color: var(--primary-color);
+	color: var(--white);
+}
+
+/* Make buttons more prominent */
+.button-group {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 2rem;
+}
+
+.button-group button {
+	padding: 0.8rem 1.5rem;
+	font-size: 1rem;
+	min-width: 120px;
+}
+
+/* On large screens, ensure the layout is even more comfortable */
+@media (min-width: 1600px) {
+	.planner-content {
+		gap: 3rem;
+	}
+
+	.step-container {
+		padding: 2.5rem;
+	}
+}
+
+/* Responsive layout for medium screens */
+@media (max-width: 1200px) {
+	.input-section,
+	.output-section {
+		flex: 1;
+	}
+}
+
+@media (max-width: 992px) {
+	.planner-content {
+		flex-direction: column;
+	}
+
+	.output-section {
+		margin-top: 1.5rem;
+	}
+}
+
+@media (max-width: 768px) {
+	.step-container {
+		padding: 1.25rem;
+	}
+
+	.checkbox-group {
+		flex-direction: column;
+	}
+}
+
+.guidance-message {
+	text-align: center;
+	margin-bottom: 1rem;
+	padding: 0.9rem;
+	background-color: rgba(166, 206, 185, 0.15);
+	border-radius: 8px;
+	border-left: 4px solid var(--secondary-color);
+}
+
+.guidance-message p {
+	margin: 0;
+	color: var(--text-light);
+	font-size: 1rem;
+}

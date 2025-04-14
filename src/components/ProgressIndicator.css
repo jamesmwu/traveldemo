@@ -1,0 +1,113 @@
+.progress-indicator {
+	margin-bottom: 2rem;
+	margin-top: 0.5rem;
+}
+
+.progress-bar {
+	height: 6px;
+	width: 100%;
+	background-color: var(--medium-gray);
+	border-radius: 4px;
+	margin-bottom: 1.5rem;
+	position: relative;
+	overflow: hidden;
+}
+
+.progress-fill {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	background-color: var(--secondary-color);
+	background-image: linear-gradient(
+		to right,
+		var(--secondary-color),
+		var(--accent-color)
+	);
+	transition: width 0.5s ease;
+}
+
+.step-markers {
+	display: flex;
+	justify-content: space-between;
+	position: relative;
+	margin-top: 0.75rem;
+}
+
+.step-marker {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+	width: 130px;
+	text-align: center;
+	color: var(--text-light);
+	transition: color 0.3s ease;
+}
+
+.marker-circle {
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background-color: var(--white);
+	border: 2px solid var(--medium-gray);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	transition: all 0.3s ease;
+	font-size: 1rem;
+	color: var(--text-light);
+}
+
+.marker-label {
+	font-size: 0.9rem;
+	font-weight: 500;
+}
+
+.step-marker.active {
+	color: var(--text-color);
+}
+
+.step-marker.active .marker-circle {
+	background-color: var(--accent-color);
+	border-color: var(--accent-color);
+	color: var(--text-color);
+	font-weight: 700;
+	box-shadow: 0 2px 8px rgba(244, 162, 97, 0.25);
+}
+
+@media (max-width: 768px) {
+	.progress-indicator {
+		margin-bottom: 1.5rem;
+	}
+
+	.step-markers {
+		overflow-x: auto;
+		padding-bottom: 1rem;
+		justify-content: flex-start;
+	}
+
+	.step-marker {
+		min-width: 90px;
+		margin-right: 0.75rem;
+	}
+
+	.marker-label {
+		font-size: 0.8rem;
+	}
+
+	.marker-circle {
+		width: 32px;
+		height: 32px;
+		font-size: 0.9rem;
+	}
+}
+
+/* For even smaller screens */
+@media (max-width: 480px) {
+	.step-marker {
+		width: 80px;
+		min-width: 80px;
+	}
+}
