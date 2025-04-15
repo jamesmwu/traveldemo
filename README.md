@@ -1,107 +1,111 @@
-# Interactive Travel Itinerary Planner
+# Interactive Itinerary Planner
 
-An interactive web application that helps users plan personalized travel itineraries with AI assistance.
+A full-stack travel itinerary planning application that uses AI to generate personalized travel plans based on user preferences and requirements.
+
+Note: for some reason, deleting the package.json and package-lock.json in the
+root directory causes the personalized itinerary to have some issues with
+generating after the destination has been inputted. I'm aware this needs to be
+debugged at some point since the dependencies are separately managed within
+frontend and backend, but until time permits... if it works don't fix it haha
 
 ## Features
 
-- Step-by-step itinerary planning process
-- AI-generated travel recommendations
-- Real-time streaming response
-- Customizable itineraries
-- Responsive design
+- Guided multi-step interface for creating a personalized travel itinerary
+- Real-time streaming text output with typewriter effect powered by GPT-4o
+- Responsive layout that works on both desktop and mobile devices
+- Interactive preference selectors for activities and customizations
+- Downloadable itinerary in text format
+- Backend API with streaming responses for real-time itinerary generation
+- Environment-based configuration for secure API key management
 
 ## Project Structure
 
-The project consists of two main parts:
+The project is split into two main components:
 
-- **Frontend**: React application built with Vite
-- **Backend**: Express.js server that connects to OpenAI API
+### Frontend (`/frontend`)
 
-## Prerequisites
+- React.js application built with Vite
+- Modern, responsive UI with vanilla CSS
+- Real-time streaming integration with backend
+- Step-by-step itinerary creation process
 
-- Node.js (v16 or higher)
-- npm or yarn
+### Backend (`/backend`)
+
+- Express.js server
+- OpenAI GPT-4o integration
+- Streaming response handling
+- Environment-based configuration
+
+## How It Works
+
+The application guides users through a four-step process:
+
+1. **Basic Info** - Users enter their destination, travel dates, budget level, and number of travelers
+2. **Activity Preferences** - Users select their activity interests and preferences
+3. **Detailed Customization** - Users can make specific adjustments to their itinerary
+4. **Review & Save** - Users can review, download, or share their generated itinerary
+
+## Tech Stack
+
+### Frontend
+
+- React.js (with hooks)
+- CSS (vanilla, no external UI libraries)
+- Vite.js for build tooling
+
+### Backend
+
+- Node.js
+- Express.js
+- OpenAI GPT-4o API
+- dotenv for environment management
+- CORS enabled for frontend communication
+
+## Setup and Running
+
+### Prerequisites
+
+- Node.js (v20+ recommended)
 - OpenAI API key
-
-## Setup Instructions
 
 ### Backend Setup
 
 1. Navigate to the backend directory:
-
    ```
    cd backend
    ```
-
 2. Install dependencies:
-
    ```
    npm install
    ```
-
-3. Create a `.env` file in the backend directory with your OpenAI API key:
-
+3. Create a `.env` file with your OpenAI API key:
    ```
    OPENAI_API_KEY=your_api_key_here
-   PORT=3001
    ```
-
-4. Start the backend server:
+4. Start the server:
    ```
-   npm start
+   npm run dev
    ```
+   The server will run on http://localhost:3001
 
 ### Frontend Setup
 
 1. Navigate to the frontend directory:
-
    ```
    cd frontend
    ```
-
 2. Install dependencies:
-
    ```
    npm install
    ```
-
 3. Start the development server:
-
    ```
    npm run dev
    ```
-
-4. Open your browser and navigate to `http://localhost:5173`
-
-## How It Works
-
-The application flows through a 4-step process:
-
-1. Basic Information: Users enter destination, dates, budget, and travelers
-2. Activity Preferences: Users select activities they're interested in
-3. Detailed Customization: Users can fine-tune their preferences
-4. Review and Save: Final itinerary is displayed with the option to save
-
-During the detailed customization step, the frontend makes API calls to the backend, which then streams AI-generated itinerary content back to the user.
+4. Open your browser to the URL shown in the terminal (typically http://localhost:5173)
 
 ## API Endpoints
 
-- `GET /`: Health check endpoint
-- `POST /api/itinerary/generate`: Generates itinerary with OpenAI
-
-## Technology Stack
-
-- **Frontend**:
-
-  - React
-  - CSS
-  - Vite
-
-- **Backend**:
-  - Express.js
-  - OpenAI API
-
-## Notes
-
-- The `.env` file containing your OpenAI API key is excluded from Git in the `.gitignore` file
-- For development, the frontend and backend should be running simultaneously
+- `POST /api/itinerary/generate` - Generates a streaming itinerary response based on user inputs
+  - Accepts JSON body with user preferences and current step information
+  - Returns Server-Sent Events (SSE) stream of the generated itinerary
