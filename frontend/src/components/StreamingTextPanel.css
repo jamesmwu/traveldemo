@@ -31,48 +31,48 @@
 }
 
 .panel-content {
-	flex: 1;
-	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
 	overflow-y: auto;
-	max-height: 600px;
-	line-height: 1.7;
-	font-size: 1rem;
-	color: var(--text-color);
-	word-wrap: break-word;
-	word-break: break-word;
-	overflow-wrap: break-word;
+	padding: 1rem 1.5rem;
+	background-color: var(--white);
+	border-radius: 0 0 8px 8px; /* Rounded bottom corners */
+	height: calc(
+		100vh - 200px
+	); /* Adjust height based on header/footer/padding */
+	min-height: 300px; /* Ensure a minimum height */
 }
 
 .streaming-text {
-	white-space: pre-wrap;
-	font-size: 1rem;
-	max-width: 100%;
+	white-space: pre-wrap; /* Preserve whitespace and wrap lines */
+	word-wrap: break-word;
+	line-height: 1.6;
+	color: var(--text-color);
+	flex-grow: 1; /* Allow text to take available space */
 }
 
 .empty-state {
 	color: var(--text-light);
+	text-align: center;
+	padding: 2rem;
 	font-style: italic;
+	flex-grow: 1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 100%;
-	text-align: center;
-	padding: 2rem;
 }
 
 /* Blinking cursor animation */
 .cursor-blink {
 	display: inline-block;
 	animation: blink 1s step-end infinite;
-	font-weight: normal;
-	color: var(--accent-dark);
+	font-weight: bold;
+	color: var(--primary-color);
+	margin-left: 2px;
 }
 
 @keyframes blink {
-	from,
-	to {
-		opacity: 1;
-	}
 	50% {
 		opacity: 0;
 	}
@@ -231,3 +231,113 @@
 		font-size: 0.95rem;
 	}
 }
+
+/* --- Markdown Content Styling --- */
+
+.markdown-content {
+	color: var(--text-dark); /* Ensure base text color is dark */
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content h4,
+.markdown-content h5,
+.markdown-content h6 {
+	/* color: var(--primary-color); */ /* REMOVED color rule */
+	margin-top: 1.2em; /* Reduced margin */
+	margin-bottom: 0.5em; /* Reduced margin */
+	line-height: 1.3;
+	font-weight: 600; /* Make headings bolder */
+}
+
+.markdown-content h1 {
+	font-size: 1.6rem; /* Adjusted size */
+	border-bottom: 1px solid var(--medium-gray);
+	padding-bottom: 0.3em;
+}
+
+.markdown-content h2 {
+	font-size: 1.4rem; /* Adjusted size */
+	border-bottom: 1px solid var(--light-gray);
+	padding-bottom: 0.25em;
+}
+
+.markdown-content h3 {
+	font-size: 1.2rem; /* Adjusted size */
+	font-weight: 600;
+}
+
+.markdown-content h4 {
+	font-size: 1.1rem; /* Adjusted size */
+	/* color: var(--secondary-color); */ /* REMOVED color rule */
+	font-weight: 600;
+}
+
+.markdown-content p {
+	margin-bottom: 0.75em; /* Reduced margin */
+}
+
+.markdown-content ul,
+.markdown-content ol {
+	margin-left: 1.2rem; /* Reduced indent */
+	margin-bottom: 0.75em; /* Reduced margin */
+	padding-left: 1rem;
+}
+
+.markdown-content li {
+	margin-bottom: 0.3em; /* Reduced margin */
+}
+
+.markdown-content ul li::marker {
+	/* color: var(--primary-color); */ /* REMOVED color rule */
+}
+
+.markdown-content ol li::marker {
+	/* color: var(--secondary-color); */ /* REMOVED color rule */
+	font-weight: bold;
+}
+
+.markdown-content strong,
+.markdown-content b {
+	font-weight: 600;
+	/* color: var(--text-dark); */ /* Use inherited color */
+}
+
+.markdown-content code {
+	background-color: var(--light-gray);
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-family: var(--font-mono);
+	font-size: 0.9em;
+}
+
+.markdown-content pre {
+	background-color: var(--light-gray);
+	padding: 1em;
+	border-radius: 5px;
+	overflow-x: auto; /* Allow horizontal scrolling for code blocks */
+}
+
+.markdown-content pre code {
+	padding: 0;
+	background-color: transparent;
+}
+
+.markdown-content blockquote {
+	margin-left: 1em;
+	padding-left: 1em;
+	border-left: 4px solid var(--medium-gray);
+	color: var(--text-light);
+	font-style: italic;
+	margin-bottom: 1em;
+}
+
+.markdown-content hr {
+	border: none;
+	height: 1px;
+	background-color: var(--medium-gray);
+	margin: 2em 0;
+}
+
+/* Add more specific styles as needed */

@@ -1,17 +1,26 @@
 import { useState, useEffect } from "react";
 import "./steps.css";
 
-const BasicInfo = ({ itineraryData, updateItineraryData, onNext }) => {
+const BasicInfo = ({ data, onUpdate }) => {
 	const [formValid, setFormValid] = useState(false);
 	const [localData, setLocalData] = useState({
-		destination: itineraryData.destination || "",
-		startDate: itineraryData.startDate || "",
-		endDate: itineraryData.endDate || "",
-		budget: itineraryData.budget || "",
-		travelers: itineraryData.travelers || 1,
+		destination: data.destination || "",
+		startDate: data.startDate || "",
+		endDate: data.endDate || "",
+		budget: data.budget || "",
+		travelers: data.travelers || 1,
 	});
 
-	// Check form validity whenever local data changes
+	useEffect(() => {
+		setLocalData({
+			destination: data.destination || "",
+			startDate: data.startDate || "",
+			endDate: data.endDate || "",
+			budget: data.budget || "",
+			travelers: data.travelers || 1,
+		});
+	}, [data]);
+
 	useEffect(() => {
 		const isValid = !!localData.destination;
 		setFormValid(isValid);
@@ -19,26 +28,13 @@ const BasicInfo = ({ itineraryData, updateItineraryData, onNext }) => {
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setLocalData((prev) => {
-			const updated = { ...prev, [name]: value };
-			// // Update parent state immediately // No longer needed here
-			// updateItineraryData({ [name]: value });
-			// // Update streaming text immediately // No longer needed here
-			// setStreamingText(
-			// 	mockItineraryUpdates[name] || mockItineraryUpdates.default
-			// );
-			return updated;
-		});
+		const updatedValue =
+			name === "travelers" ? parseInt(value, 10) || 1 : value;
+		const updatedLocalData = { ...localData, [name]: updatedValue };
+		setLocalData(updatedLocalData);
+		onUpdate({ [name]: updatedValue });
 	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		// Update the parent component's state before moving next
-		updateItineraryData(localData);
-		onNext();
-	};
-
-	// Get today's date in YYYY-MM-DD format for min date attribute
 	const getTodayString = () => {
 		const today = new Date();
 		return today.toISOString().split("T")[0];
@@ -48,7 +44,7 @@ const BasicInfo = ({ itineraryData, updateItineraryData, onNext }) => {
 		<div className="step-container">
 			<h2 className="step-title">Where would you like to go?</h2>
 
-			<form onSubmit={handleSubmit}>
+			<form>
 				<div className="form-group">
 					<label htmlFor="destination">Destination</label>
 					<input
@@ -111,17 +107,6 @@ const BasicInfo = ({ itineraryData, updateItineraryData, onNext }) => {
 						min="1"
 						max="20"
 					/>
-				</div>
-
-				<div className="button-group">
-					<div></div> {/* Empty div for spacing */}
-					<button
-						type="submit"
-						disabled={!formValid}
-						className="primary-button"
-					>
-						Continue to Activities
-					</button>
 				</div>
 			</form>
 		</div>

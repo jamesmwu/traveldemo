@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./steps.css";
 
-const ActivityPreferences = ({
-	itineraryData,
-	updateItineraryData,
-	onNext,
-	onBack,
-}) => {
+const ActivityPreferences = ({ data, onUpdate }) => {
 	const [selectedActivities, setSelectedActivities] = useState(
-		itineraryData.activities || []
+		data.activities || []
 	);
+	const [pace, setPace] = useState(data.pace || "balanced");
+	const [specialRequests, setSpecialRequests] = useState(
+		data.specialRequests || ""
+	);
+
+	useEffect(() => {
+		setSelectedActivities(data.activities || []);
+		setPace(data.pace || "balanced");
+		setSpecialRequests(data.specialRequests || "");
+	}, [data]);
 
 	const activityOptions = [
 		{ id: "cultural", label: "Cultural & Museums" },
@@ -24,41 +29,33 @@ const ActivityPreferences = ({
 		{ id: "local", label: "Local Experiences" },
 	];
 
-	const toggleActivity = (activity) => {
-		setSelectedActivities((prev) => {
-			let updatedActivities;
-			if (prev.includes(activity)) {
-				updatedActivities = prev.filter((a) => a !== activity);
-			} else {
-				updatedActivities = [...prev, activity];
-			}
-			return updatedActivities;
-		});
+	const toggleActivity = (activityLabel) => {
+		let updatedActivities;
+		if (selectedActivities.includes(activityLabel)) {
+			updatedActivities = selectedActivities.filter((a) => a !== activityLabel);
+		} else {
+			updatedActivities = [...selectedActivities, activityLabel];
+		}
+		setSelectedActivities(updatedActivities);
+		onUpdate({ activities: updatedActivities });
 	};
 
-	const handleContinue = () => {
-		const pace =
-			document.getElementById("pace")?.value ||
-			itineraryData.pace ||
-			"balanced";
-		const specialRequirements =
-			document.getElementById("special-requirements")?.value ||
-			itineraryData.specialRequirements ||
-			"";
+	const handlePaceChange = (e) => {
+		const newPace = e.target.value;
+		setPace(newPace);
+		onUpdate({ pace: newPace });
+	};
 
-		updateItineraryData({
-			activities: selectedActivities,
-			pace,
-			specialRequirements,
-		});
-		onNext();
+	const handleSpecialRequestsChange = (e) => {
+		const newRequests = e.target.value;
+		setSpecialRequests(newRequests);
+		onUpdate({ specialRequests: newRequests });
 	};
 
 	return (
 		<div className="step-container">
 			<h2 className="step-title">
-				What would you like to do in{" "}
-				{itineraryData.destination || "your destination"}?
+				What would you like to do in {data.destination || "your destination"}?
 			</h2>
 
 			<div className="form-group">
@@ -85,7 +82,8 @@ const ActivityPreferences = ({
 					<select
 						id="pace"
 						name="pace"
-						defaultValue={itineraryData.pace || "balanced"}
+						value={pace}
+						onChange={handlePaceChange}
 					>
 						<option value="relaxed">Relaxed - Plenty of downtime</option>
 						<option value="balanced">
@@ -97,27 +95,17 @@ const ActivityPreferences = ({
 			</div>
 
 			<div className="form-group">
-				<label>Special Interests or Requirements:</label>
+				<label htmlFor="specialRequests">
+					Special Interests or Requirements:
+				</label>
 				<textarea
-					id="special-requirements"
+					id="specialRequests"
+					name="specialRequests"
 					placeholder="Any special interests, accessibility needs, or specific requirements for your trip?"
-					defaultValue={itineraryData.specialRequirements || ""}
+					value={specialRequests}
+					onChange={handleSpecialRequestsChange}
 					rows={3}
 				/>
-			</div>
-
-			<div className="button-group">
-				<button type="button" className="secondary" onClick={onBack}>
-					Back to Basic Info
-				</button>
-				<button
-					type="button"
-					onClick={handleContinue}
-					disabled={selectedActivities.length === 0}
-					className="primary-button"
-				>
-					Continue to Customization
-				</button>
 			</div>
 		</div>
 	);

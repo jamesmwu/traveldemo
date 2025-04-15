@@ -1,27 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./steps.css";
 
-const DetailedCustomization = ({
-	itineraryData,
-	updateItineraryData,
-	onNext,
-	onBack,
-}) => {
-	const [accommodation, setAccommodation] = useState(
-		itineraryData.accommodation || ""
-	);
-
+const DetailedCustomization = ({ data, onUpdate }) => {
+	const [accommodation, setAccommodation] = useState(data.accommodation || "");
 	const [selectedCustomizations, setSelectedCustomizations] = useState(
-		itineraryData.customizations || []
+		data.customizations || []
 	);
-
+	const [transportation, setTransportation] = useState(
+		data.transportation || ""
+	);
+	const [specialRequests, setSpecialRequests] = useState(
+		data.specialRequests || ""
+	);
 	const [includeBreakfast, setIncludeBreakfast] = useState(
-		itineraryData.includeBreakfast || false
+		data.includeBreakfast || false
+	);
+	const [includeAirportTransfer, setIncludeAirportTransfer] = useState(
+		data.includeAirportTransfer || false
 	);
 
-	const [includeAirportTransfer, setIncludeAirportTransfer] = useState(
-		itineraryData.includeAirportTransfer || false
-	);
+	useEffect(() => {
+		setAccommodation(data.accommodation || "");
+		setSelectedCustomizations(data.customizations || []);
+		setTransportation(data.transportation || "");
+		setSpecialRequests(data.specialRequests || "");
+		setIncludeBreakfast(data.includeBreakfast || false);
+		setIncludeAirportTransfer(data.includeAirportTransfer || false);
+	}, [data]);
 
 	const customizationOptions = [
 		{ id: "more-museums", label: "More Museums" },
@@ -36,61 +41,62 @@ const DetailedCustomization = ({
 		{ id: "shopping", label: "Add Shopping Time" },
 	];
 
-	const toggleCustomization = (customization) => {
-		setSelectedCustomizations((prev) => {
-			let updatedCustomizations;
-			if (prev.includes(customization)) {
-				updatedCustomizations = prev.filter((c) => c !== customization);
-			} else {
-				updatedCustomizations = [...prev, customization];
-			}
-			return updatedCustomizations;
-		});
+	const handleAccommodationChange = (e) => {
+		const newValue = e.target.value;
+		setAccommodation(newValue);
+		onUpdate({ accommodation: newValue });
+	};
+
+	const toggleCustomization = (customizationLabel) => {
+		let updatedCustomizations;
+		if (selectedCustomizations.includes(customizationLabel)) {
+			updatedCustomizations = selectedCustomizations.filter(
+				(c) => c !== customizationLabel
+			);
+		} else {
+			updatedCustomizations = [...selectedCustomizations, customizationLabel];
+		}
+		setSelectedCustomizations(updatedCustomizations);
+		onUpdate({ customizations: updatedCustomizations });
+	};
+
+	const handleTransportationChange = (e) => {
+		const newValue = e.target.value;
+		setTransportation(newValue);
+		onUpdate({ transportation: newValue });
+	};
+
+	const handleSpecialRequestsChange = (e) => {
+		const newValue = e.target.value;
+		setSpecialRequests(newValue);
+		onUpdate({ specialRequests: newValue });
 	};
 
 	const toggleBreakfast = () => {
 		const newValue = !includeBreakfast;
 		setIncludeBreakfast(newValue);
+		onUpdate({ includeBreakfast: newValue });
 	};
 
 	const toggleAirportTransfer = () => {
 		const newValue = !includeAirportTransfer;
 		setIncludeAirportTransfer(newValue);
-	};
-
-	const handleContinue = () => {
-		const transportation =
-			document.getElementById("transportation")?.value ||
-			itineraryData.transportation ||
-			"";
-		const specialRequests =
-			document.getElementById("special-requests")?.value ||
-			itineraryData.specialRequests ||
-			"";
-
-		updateItineraryData({
-			accommodation,
-			customizations: selectedCustomizations,
-			includeBreakfast,
-			includeAirportTransfer,
-			transportation,
-			specialRequests,
-		});
-		onNext();
+		onUpdate({ includeAirportTransfer: newValue });
 	};
 
 	return (
 		<div className="step-container">
 			<h2 className="step-title">
-				Customize Your {itineraryData.destination || "Trip"} Itinerary
+				Customize Your {data.destination || "Trip"} Itinerary
 			</h2>
 
 			<div className="form-group">
 				<label htmlFor="accommodation">Preferred Accommodation Type</label>
 				<select
 					id="accommodation"
+					name="accommodation"
 					value={accommodation}
-					onChange={(e) => setAccommodation(e.target.value)}
+					onChange={handleAccommodationChange}
 				>
 					<option value="">Select accommodation type</option>
 					<option value="Hotel">Hotel</option>
@@ -126,7 +132,9 @@ const DetailedCustomization = ({
 				<label htmlFor="transportation">Local Transportation Preferences</label>
 				<select
 					id="transportation"
-					defaultValue={itineraryData.transportation || ""}
+					name="transportation"
+					value={transportation}
+					onChange={handleTransportationChange}
 				>
 					<option value="">Select transportation preference</option>
 					<option value="Public Transportation">Public Transportation</option>
@@ -139,11 +147,13 @@ const DetailedCustomization = ({
 			</div>
 
 			<div className="form-group">
-				<label>Special Requests:</label>
+				<label htmlFor="special-requests">Special Requests:</label>
 				<textarea
 					id="special-requests"
+					name="specialRequests"
 					placeholder="Any specific places you'd like to visit or experiences you'd like to have?"
-					defaultValue={itineraryData.specialRequests || ""}
+					value={specialRequests}
+					onChange={handleSpecialRequestsChange}
 					rows={3}
 				/>
 			</div>
@@ -164,19 +174,6 @@ const DetailedCustomization = ({
 					onClick={toggleAirportTransfer}
 				>
 					Add Airport Transfers
-				</button>
-			</div>
-
-			<div className="button-group">
-				<button type="button" className="secondary" onClick={onBack}>
-					Back to Activities
-				</button>
-				<button
-					type="button"
-					onClick={handleContinue}
-					className="primary-button"
-				>
-					Continue to Review
 				</button>
 			</div>
 		</div>
