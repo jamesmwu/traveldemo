@@ -195,7 +195,7 @@ const ItineraryPlanner = () => {
 				console.log("Streaming set to false, fetch marked as done.");
 			}
 		},
-		[] // REMOVED streamingText dependency - function is now stable
+		[]
 	);
 
 	// --- Trigger Fetch Logic ---
@@ -221,8 +221,7 @@ const ItineraryPlanner = () => {
 				abortControllerRef.current.abort();
 			}
 		}
-		// This effect ONLY runs when destination changes
-	}, [itineraryData.destination]); // REMOVED fetchStreamingItinerary dependency
+	}, [itineraryData.destination]);
 
 	// Use another useEffect to trigger fetch ONLY on step changes
 	useEffect(() => {
@@ -270,7 +269,7 @@ const ItineraryPlanner = () => {
 			setCurrentStep(currentStep - 1);
 			console.log(`Moving to step ${currentStep - 1}`);
 			// We might want to clear the *part* of the itinerary generated for the step we left,
-			// but that requires more complex state management. For now, going back won't re-fetch.
+			// but that requires more complex state management lol. For now, going back won't re-fetch.
 		}
 	};
 

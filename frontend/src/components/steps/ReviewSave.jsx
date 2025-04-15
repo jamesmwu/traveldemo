@@ -186,8 +186,6 @@ ${itineraryText || "(Itinerary details not generated yet)"}
 					{finalized ? "Finalized!" : "Finalize & Save"}
 				</button>
 			</div>
-
-			{/* Removed button group with Back button, navigation handled by parent */}
 		</div>
 	);
 };

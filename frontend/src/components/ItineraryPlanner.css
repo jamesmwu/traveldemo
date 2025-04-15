@@ -24,7 +24,6 @@
 	min-width: 0;
 }
 
-/* Make the forms more comfortable on large screens */
 .step-container {
 	background-color: var(--white);
 	border-radius: 8px;
@@ -33,7 +32,6 @@
 	width: 100%;
 }
 
-/* Form styling */
 .step-title {
 	font-size: 1.5rem;
 	margin-bottom: 1.5rem;
@@ -102,7 +100,6 @@
 	color: var(--white);
 }
 
-/* Make buttons more prominent */
 .button-group {
 	display: flex;
 	justify-content: space-between;
@@ -123,7 +120,6 @@
 	min-width: 120px;
 }
 
-/* On large screens, ensure the layout is even more comfortable */
 @media (min-width: 1600px) {
 	.planner-content {
 		gap: 3rem;

@@ -37,19 +37,17 @@
 	overflow-y: auto;
 	padding: 1rem 1.5rem;
 	background-color: var(--white);
-	border-radius: 0 0 8px 8px; /* Rounded bottom corners */
-	height: calc(
-		100vh - 200px
-	); /* Adjust height based on header/footer/padding */
-	min-height: 300px; /* Ensure a minimum height */
+	border-radius: 0 0 8px 8px;
+	height: calc(100vh - 200px);
+	min-height: 300px;
 }
 
 .streaming-text {
-	white-space: pre-wrap; /* Preserve whitespace and wrap lines */
+	white-space: pre-wrap;
 	word-wrap: break-word;
 	line-height: 1.6;
 	color: var(--text-color);
-	flex-grow: 1; /* Allow text to take available space */
+	flex-grow: 1;
 }
 
 .empty-state {
@@ -140,7 +138,7 @@
 }
 
 .edit-suggestion-section {
-	padding: 1rem 1.5rem 0.5rem; /* Add padding top/bottom */
+	padding: 1rem 1.5rem 0.5rem;
 	background-color: var(--light-gray);
 	border-bottom: 1px solid var(--medium-gray);
 }
@@ -156,8 +154,8 @@
 	line-height: 1.6;
 	background-color: var(--white);
 	color: var(--text-color);
-	margin-bottom: 0.75rem; /* Add margin below inputs */
-	resize: vertical; /* Allow vertical resizing */
+	margin-bottom: 0.75rem;
+	resize: vertical;
 }
 
 .suggestion-input:focus,
@@ -168,10 +166,8 @@
 }
 
 .edit-textarea {
-	/* Adjust height to fill available space better */
-	min-height: 300px; /* Minimum height */
-	height: calc(100% - 2rem); /* Try to fill space, adjust as needed */
-	/* Ensure it respects the panel content padding */
+	min-height: 300px;
+	height: calc(100% - 2rem);
 	box-sizing: border-box;
 }
 
@@ -179,7 +175,7 @@
 	display: flex;
 	justify-content: flex-end;
 	gap: 0.75rem;
-	margin-bottom: 0.5rem; /* Add space below buttons */
+	margin-bottom: 0.5rem;
 }
 
 .edit-actions button {
@@ -235,7 +231,7 @@
 /* --- Markdown Content Styling --- */
 
 .markdown-content {
-	color: var(--text-dark); /* Ensure base text color is dark */
+	color: var(--text-dark);
 }
 
 .markdown-content h1,
@@ -244,64 +240,58 @@
 .markdown-content h4,
 .markdown-content h5,
 .markdown-content h6 {
-	/* color: var(--primary-color); */ /* REMOVED color rule */
-	margin-top: 1.2em; /* Reduced margin */
-	margin-bottom: 0.5em; /* Reduced margin */
+	/* color: var(--primary-color); */
+	margin-top: 1.2em;
+	margin-bottom: 0.5em;
 	line-height: 1.3;
-	font-weight: 600; /* Make headings bolder */
+	font-weight: 600;
 }
 
 .markdown-content h1 {
-	font-size: 1.6rem; /* Adjusted size */
+	font-size: 1.6rem;
 	border-bottom: 1px solid var(--medium-gray);
 	padding-bottom: 0.3em;
 }
 
 .markdown-content h2 {
-	font-size: 1.4rem; /* Adjusted size */
+	font-size: 1.4rem;
 	border-bottom: 1px solid var(--light-gray);
 	padding-bottom: 0.25em;
 }
 
 .markdown-content h3 {
-	font-size: 1.2rem; /* Adjusted size */
+	font-size: 1.2rem;
 	font-weight: 600;
 }
 
 .markdown-content h4 {
-	font-size: 1.1rem; /* Adjusted size */
-	/* color: var(--secondary-color); */ /* REMOVED color rule */
+	font-size: 1.1rem;
+	/* color: var(--secondary-color); */
 	font-weight: 600;
 }
 
 .markdown-content p {
-	margin-bottom: 0.75em; /* Reduced margin */
+	margin-bottom: 0.75em;
 }
 
 .markdown-content ul,
 .markdown-content ol {
-	margin-left: 1.2rem; /* Reduced indent */
-	margin-bottom: 0.75em; /* Reduced margin */
+	margin-left: 1.2rem;
+	margin-bottom: 0.75em;
 	padding-left: 1rem;
 }
 
 .markdown-content li {
-	margin-bottom: 0.3em; /* Reduced margin */
-}
-
-.markdown-content ul li::marker {
-	/* color: var(--primary-color); */ /* REMOVED color rule */
+	margin-bottom: 0.3em;
 }
 
 .markdown-content ol li::marker {
-	/* color: var(--secondary-color); */ /* REMOVED color rule */
 	font-weight: bold;
 }
 
 .markdown-content strong,
 .markdown-content b {
 	font-weight: 600;
-	/* color: var(--text-dark); */ /* Use inherited color */
 }
 
 .markdown-content code {
@@ -316,7 +306,7 @@
 	background-color: var(--light-gray);
 	padding: 1em;
 	border-radius: 5px;
-	overflow-x: auto; /* Allow horizontal scrolling for code blocks */
+	overflow-x: auto;
 }
 
 .markdown-content pre code {
@@ -339,5 +329,3 @@
 	background-color: var(--medium-gray);
 	margin: 2em 0;
 }
-
-/* Add more specific styles as needed */

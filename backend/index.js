@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import openai from "./openai.js"; // Your configured OpenAI client
+import openai from "./openai.js";
 
 dotenv.config();
 
@@ -9,8 +9,8 @@ const app = express();
 const port = process.env.PORT || 3001; // Use PORT from .env or default to 3001
 
 // Middleware
-app.use(cors()); // Enable CORS for all origins
-app.use(express.json()); // Parse JSON request bodies
+app.use(cors());
+app.use(express.json());
 
 // Basic route for testing server
 app.get("/", (req, res) => {
@@ -37,17 +37,17 @@ app.post("/api/itinerary/generate", async (req, res) => {
 		previousText, // String containing the itinerary text generated so far
 	} = req.body;
 
-	// --- Basic Input Validation ---
+	// Basic Input Validation
 	if (!destination) {
 		return res.status(400).json({ error: "Destination is required." });
 	}
 
-	// --- Construct the Context-Aware Prompt for OpenAI ---
+	// Prompt
 	let systemMessage = `You are a helpful travel planning assistant. Generate a detailed day-by-day travel itinerary based *only* on the information provided by the user so far. Do not invent details or sections for which information hasn't been given (e.g., don't suggest activities if none are selected). Maintain markdown formatting.`;
-	let userPrompt = ""; // Initialize empty prompt
-	let isFinalGeneration = currentStep === 3; // Check if it's the final review step
+	let userPrompt = "";
+	let isFinalGeneration = currentStep === 3; // Check if it's the final review step since we have to regenerate all of it then
 
-	// --- Build Base Details String (used in both initial and final generation) ---
+	// Base Details String (used in both initial and final generation)
 	let baseDetails = `Destination: ${destination}\n`;
 	if (startDate && endDate)
 		baseDetails += `- Dates: ${startDate} to ${endDate}\n`;
@@ -68,8 +68,7 @@ app.post("/api/itinerary/generate", async (req, res) => {
 	if (specialRequests)
 		baseDetails += `- Special Requests: ${specialRequests}\n`;
 
-	// --- Logic based on Step ---
-
+	// Step logic
 	if (isFinalGeneration) {
 		// **** FINAL GENERATION (Step 3: Review & Save) ****
 		console.log("--- Generating FINAL Itinerary ---");
@@ -137,9 +136,9 @@ Generate *only* the new or modified text based on the instructions for completin
 			messages: [
 				{
 					role: "system",
-					content: systemMessage, // Use the potentially modified system message
+					content: systemMessage,
 				},
-				{ role: "user", content: userPrompt }, // Use the potentially modified user prompt
+				{ role: "user", content: userPrompt },
 			],
 			stream: true,
 		});
@@ -148,7 +147,7 @@ Generate *only* the new or modified text based on the instructions for completin
 		res.setHeader("Content-Type", "text/event-stream");
 		res.setHeader("Cache-Control", "no-cache");
 		res.setHeader("Connection", "keep-alive");
-		res.flushHeaders(); // Flush the headers to establish the connection
+		res.flushHeaders();
 
 		console.log("Streaming response started...");
 
@@ -156,24 +155,23 @@ Generate *only* the new or modified text based on the instructions for completin
 			const content = chunk?.choices?.[0]?.delta?.content;
 			if (content) {
 				// Format as SSE: data: {chunk}
-
 				res.write(`data: ${JSON.stringify({ content })}\n\n`);
 			}
 		}
 
 		console.log("Streaming response finished.");
-		res.write("data: [DONE]\n\n"); // Signal stream end (optional, useful for frontend)
+		res.write("data: [DONE]\n\n"); // Stream end here (debugging in frontend?)
 		res.end();
 	} catch (error) {
 		console.error("Error calling OpenAI API:", error);
-		// Avoid setting headers again if already sent
+		// Don't set headers again if already sent
 		if (!res.headersSent) {
 			res.status(500).json({
 				error: "Failed to generate itinerary",
 				details: error.message,
 			});
 		} else {
-			// If headers are sent, we can't send a JSON error, just end the stream abruptly.
+			// If headers are sent, we can't send a JSON error, so just end the stream abruptly (idk if this is good practice lol)
 			console.error("Headers already sent, ending stream due to error.");
 			res.end();
 		}
