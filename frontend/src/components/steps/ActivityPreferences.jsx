@@ -6,8 +6,6 @@ const ActivityPreferences = ({
 	updateItineraryData,
 	onNext,
 	onBack,
-	setStreamingText,
-	mockItineraryUpdates,
 }) => {
 	const [selectedActivities, setSelectedActivities] = useState(
 		itineraryData.activities || []
@@ -27,35 +25,32 @@ const ActivityPreferences = ({
 	];
 
 	const toggleActivity = (activity) => {
-		let updatedActivities;
 		setSelectedActivities((prev) => {
+			let updatedActivities;
 			if (prev.includes(activity)) {
 				updatedActivities = prev.filter((a) => a !== activity);
 			} else {
 				updatedActivities = [...prev, activity];
 			}
-			// Update parent and streaming text
-			updateItineraryData({ activities: updatedActivities });
-			setStreamingText(mockItineraryUpdates.selectedActivities);
 			return updatedActivities;
 		});
 	};
 
-	const handlePaceChange = (e) => {
-		const newPace = e.target.value;
-		updateItineraryData({ pace: newPace });
-		setStreamingText(mockItineraryUpdates.tripPace);
-	};
-
-	const handleRequirementsChange = (e) => {
-		const newRequirements = e.target.value;
-		updateItineraryData({ specialRequirements: newRequirements });
-		// Using a default message as there's no specific key for requirements
-		setStreamingText(mockItineraryUpdates.default);
-	};
-
 	const handleContinue = () => {
-		// Data is already updated in parent
+		const pace =
+			document.getElementById("pace")?.value ||
+			itineraryData.pace ||
+			"balanced";
+		const specialRequirements =
+			document.getElementById("special-requirements")?.value ||
+			itineraryData.specialRequirements ||
+			"";
+
+		updateItineraryData({
+			activities: selectedActivities,
+			pace,
+			specialRequirements,
+		});
 		onNext();
 	};
 
@@ -91,7 +86,6 @@ const ActivityPreferences = ({
 						id="pace"
 						name="pace"
 						defaultValue={itineraryData.pace || "balanced"}
-						onChange={handlePaceChange}
 					>
 						<option value="relaxed">Relaxed - Plenty of downtime</option>
 						<option value="balanced">
@@ -105,9 +99,9 @@ const ActivityPreferences = ({
 			<div className="form-group">
 				<label>Special Interests or Requirements:</label>
 				<textarea
+					id="special-requirements"
 					placeholder="Any special interests, accessibility needs, or specific requirements for your trip?"
 					defaultValue={itineraryData.specialRequirements || ""}
-					onChange={handleRequirementsChange}
 					rows={3}
 				/>
 			</div>

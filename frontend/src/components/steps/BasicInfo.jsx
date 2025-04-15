@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
 import "./steps.css";
 
-const BasicInfo = ({
-	itineraryData,
-	updateItineraryData,
-	onNext,
-	setStreamingText,
-	mockItineraryUpdates,
-}) => {
+const BasicInfo = ({ itineraryData, updateItineraryData, onNext }) => {
 	const [formValid, setFormValid] = useState(false);
 	const [localData, setLocalData] = useState({
 		destination: itineraryData.destination || "",
@@ -19,7 +13,6 @@ const BasicInfo = ({
 
 	// Check form validity whenever local data changes
 	useEffect(() => {
-		// Simple validation - at minimum, we need destination
 		const isValid = !!localData.destination;
 		setFormValid(isValid);
 	}, [localData]);
@@ -28,19 +21,20 @@ const BasicInfo = ({
 		const { name, value } = e.target;
 		setLocalData((prev) => {
 			const updated = { ...prev, [name]: value };
-			// Update parent state immediately
-			updateItineraryData({ [name]: value });
-			// Update streaming text immediately
-			setStreamingText(
-				mockItineraryUpdates[name] || mockItineraryUpdates.default
-			);
+			// // Update parent state immediately // No longer needed here
+			// updateItineraryData({ [name]: value });
+			// // Update streaming text immediately // No longer needed here
+			// setStreamingText(
+			// 	mockItineraryUpdates[name] || mockItineraryUpdates.default
+			// );
 			return updated;
 		});
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// Data is already updated in parent via handleChange
+		// Update the parent component's state before moving next
+		updateItineraryData(localData);
 		onNext();
 	};
 

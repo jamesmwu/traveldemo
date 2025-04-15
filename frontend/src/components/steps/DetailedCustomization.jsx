@@ -6,8 +6,6 @@ const DetailedCustomization = ({
 	updateItineraryData,
 	onNext,
 	onBack,
-	setStreamingText,
-	mockItineraryUpdates,
 }) => {
 	const [accommodation, setAccommodation] = useState(
 		itineraryData.accommodation || ""
@@ -38,55 +36,46 @@ const DetailedCustomization = ({
 		{ id: "shopping", label: "Add Shopping Time" },
 	];
 
-	const handleAccommodationChange = (e) => {
-		const newValue = e.target.value;
-		setAccommodation(newValue);
-		updateItineraryData({ accommodation: newValue });
-		setStreamingText(mockItineraryUpdates.accommodation);
-	};
-
 	const toggleCustomization = (customization) => {
-		let updatedCustomizations;
 		setSelectedCustomizations((prev) => {
+			let updatedCustomizations;
 			if (prev.includes(customization)) {
 				updatedCustomizations = prev.filter((c) => c !== customization);
 			} else {
 				updatedCustomizations = [...prev, customization];
 			}
-			updateItineraryData({ customizations: updatedCustomizations });
-			setStreamingText(mockItineraryUpdates.customizations);
 			return updatedCustomizations;
 		});
-	};
-
-	const handleTransportationChange = (e) => {
-		const newValue = e.target.value;
-		updateItineraryData({ transportation: newValue });
-		setStreamingText(mockItineraryUpdates.transportation);
-	};
-
-	const handleSpecialRequestsChange = (e) => {
-		const newValue = e.target.value;
-		updateItineraryData({ specialRequests: newValue });
-		setStreamingText(mockItineraryUpdates.specialRequests);
 	};
 
 	const toggleBreakfast = () => {
 		const newValue = !includeBreakfast;
 		setIncludeBreakfast(newValue);
-		updateItineraryData({ includeBreakfast: newValue });
-		setStreamingText(mockItineraryUpdates.includeBreakfast);
 	};
 
 	const toggleAirportTransfer = () => {
 		const newValue = !includeAirportTransfer;
 		setIncludeAirportTransfer(newValue);
-		updateItineraryData({ includeAirportTransfer: newValue });
-		setStreamingText(mockItineraryUpdates.includeAirportTransfer);
 	};
 
 	const handleContinue = () => {
-		// Data is already updated in parent via individual handlers
+		const transportation =
+			document.getElementById("transportation")?.value ||
+			itineraryData.transportation ||
+			"";
+		const specialRequests =
+			document.getElementById("special-requests")?.value ||
+			itineraryData.specialRequests ||
+			"";
+
+		updateItineraryData({
+			accommodation,
+			customizations: selectedCustomizations,
+			includeBreakfast,
+			includeAirportTransfer,
+			transportation,
+			specialRequests,
+		});
 		onNext();
 	};
 
@@ -101,7 +90,7 @@ const DetailedCustomization = ({
 				<select
 					id="accommodation"
 					value={accommodation}
-					onChange={handleAccommodationChange}
+					onChange={(e) => setAccommodation(e.target.value)}
 				>
 					<option value="">Select accommodation type</option>
 					<option value="Hotel">Hotel</option>
@@ -138,7 +127,6 @@ const DetailedCustomization = ({
 				<select
 					id="transportation"
 					defaultValue={itineraryData.transportation || ""}
-					onChange={handleTransportationChange}
 				>
 					<option value="">Select transportation preference</option>
 					<option value="Public Transportation">Public Transportation</option>
@@ -153,9 +141,9 @@ const DetailedCustomization = ({
 			<div className="form-group">
 				<label>Special Requests:</label>
 				<textarea
+					id="special-requests"
 					placeholder="Any specific places you'd like to visit or experiences you'd like to have?"
 					defaultValue={itineraryData.specialRequests || ""}
-					onChange={handleSpecialRequestsChange}
 					rows={3}
 				/>
 			</div>

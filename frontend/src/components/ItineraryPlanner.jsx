@@ -10,7 +10,6 @@ import {
 	generateDayByDayItinerary,
 	budgetEstimates,
 	getRandomItems,
-	mockItineraryUpdates,
 } from "../data/mockData";
 import "./ItineraryPlanner.css";
 
@@ -263,8 +262,6 @@ This trip aligns perfectly with your preferences for ${
 						itineraryData={itineraryData}
 						updateItineraryData={updateItineraryData}
 						onNext={handleNext}
-						setStreamingText={setStreamingText}
-						mockItineraryUpdates={mockItineraryUpdates}
 					/>
 				);
 			case STEPS.ACTIVITY_PREFERENCES:
@@ -274,8 +271,6 @@ This trip aligns perfectly with your preferences for ${
 						updateItineraryData={updateItineraryData}
 						onNext={handleNext}
 						onBack={handleBack}
-						setStreamingText={setStreamingText}
-						mockItineraryUpdates={mockItineraryUpdates}
 					/>
 				);
 			case STEPS.DETAILED_CUSTOMIZATION:
@@ -285,8 +280,6 @@ This trip aligns perfectly with your preferences for ${
 						updateItineraryData={updateItineraryData}
 						onNext={handleNext}
 						onBack={handleBack}
-						setStreamingText={setStreamingText}
-						mockItineraryUpdates={mockItineraryUpdates}
 					/>
 				);
 			case STEPS.REVIEW_SAVE:
@@ -303,8 +296,6 @@ This trip aligns perfectly with your preferences for ${
 						itineraryData={itineraryData}
 						updateItineraryData={updateItineraryData}
 						onNext={handleNext}
-						setStreamingText={setStreamingText}
-						mockItineraryUpdates={mockItineraryUpdates}
 					/>
 				);
 		}
@@ -327,7 +318,11 @@ This trip aligns perfectly with your preferences for ${
 			<div className="planner-content">
 				<div className="input-section">{renderStep()}</div>
 				<div className="output-section">
-					<StreamingTextPanel text={streamingText} isStreaming={streaming} />
+					<StreamingTextPanel
+						text={streamingText}
+						isStreaming={streaming}
+						currentStep={currentStep}
+					/>
 				</div>
 			</div>
 		</div>

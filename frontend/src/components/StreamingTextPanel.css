@@ -117,6 +117,100 @@
 	}
 }
 
+/* Edit mode styles */
+.header-controls {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.edit-button {
+	background: none;
+	border: none;
+	color: var(--white);
+	font-size: 1.1rem;
+	cursor: pointer;
+	padding: 5px;
+	line-height: 1;
+	transition: var(--transition);
+}
+
+.edit-button:hover {
+	transform: scale(1.1);
+}
+
+.edit-suggestion-section {
+	padding: 1rem 1.5rem 0.5rem; /* Add padding top/bottom */
+	background-color: var(--light-gray);
+	border-bottom: 1px solid var(--medium-gray);
+}
+
+.suggestion-input,
+.edit-textarea {
+	width: 100%;
+	border: 1px solid var(--medium-gray);
+	border-radius: 4px;
+	padding: 0.8rem;
+	font-size: 0.95rem;
+	font-family: inherit;
+	line-height: 1.6;
+	background-color: var(--white);
+	color: var(--text-color);
+	margin-bottom: 0.75rem; /* Add margin below inputs */
+	resize: vertical; /* Allow vertical resizing */
+}
+
+.suggestion-input:focus,
+.edit-textarea:focus {
+	outline: none;
+	border-color: var(--primary-color);
+	box-shadow: 0 0 0 2px rgba(100, 161, 127, 0.2);
+}
+
+.edit-textarea {
+	/* Adjust height to fill available space better */
+	min-height: 300px; /* Minimum height */
+	height: calc(100% - 2rem); /* Try to fill space, adjust as needed */
+	/* Ensure it respects the panel content padding */
+	box-sizing: border-box;
+}
+
+.edit-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 0.75rem;
+	margin-bottom: 0.5rem; /* Add space below buttons */
+}
+
+.edit-actions button {
+	padding: 0.5rem 1rem;
+	font-size: 0.9rem;
+	min-width: 80px;
+	border-radius: 4px;
+	border: 1px solid transparent;
+}
+
+.save-button {
+	background-color: var(--primary-color);
+	color: var(--white);
+	border-color: var(--primary-color);
+}
+
+.save-button:hover {
+	background-color: var(--primary-light);
+	color: var(--text-color);
+}
+
+.cancel-button {
+	background-color: var(--light-gray);
+	color: var(--text-color);
+	border-color: var(--medium-gray);
+}
+
+.cancel-button:hover {
+	background-color: var(--medium-gray);
+}
+
 /* Ensure content wraps properly for all screen sizes */
 @media (max-width: 992px) {
 	.streaming-panel {
